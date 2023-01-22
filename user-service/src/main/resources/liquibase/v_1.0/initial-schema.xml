@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="create-table-user" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="user_application"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_application" remarks="Пользователь">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="user_application_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="${varchar_type}(120)" remarks="Фамилия пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patronymic" type="${varchar_type}(120)" remarks="Отчество пользователя"/>
+            <column name="date_birthday" type="date" remarks="Дата рождения"/>
+            <column name="phone" type="${varchar_type}(11)" remarks="Номер телефона"/>
+            <column name="sex" type="${boolean_type}" defaultValue="true" remarks="Пол пользователя">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-account-type" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="account_type"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="account_type" remarks="Тип учетной записи">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="account_type_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя типа учетной записи">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-account" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="account"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="account" remarks="Учетная запись">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="account_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_count_users" type="number" defaultValue="1"
+                    remarks="Максимально возможное количество участников учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+                <constraints foreignKeyName="account_account_type_fk" references="account_type(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user-account" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="user_account"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_account" remarks="Учетная запись пользователя">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="user_account_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="${varchar_type}(60)" remarks="Логин">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="${varchar_type}(60)" remarks="Пароль">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="${uuid_type}" remarks="Учетная запись">
+                <constraints foreignKeyName="user_account_account_fk01" references="account(id)" nullable="false"/>
+            </column>
+            <column name="user_id" type="${uuid_type}" remarks="Пользователь">
+                <constraints foreignKeyName="user_account_account_fk02" references="user_application(id)"
+                             nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add-grants-to-tables" author="${author}">
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_application TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account_type TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account TO ${db_user_name}</sql>
+    </changeSet>
+
+</databaseChangeLog>
