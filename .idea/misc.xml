@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/platform/pom.xml" />
         <option value="$PROJECT_DIR$/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/evoice-user-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -16,5 +17,10 @@
   </component>
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SwUserDefinedSpecifications">
+    <option name="specTypeByUrl">
+      <map />
+    </option>
   </component>
 </project>

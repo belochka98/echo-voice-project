@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>user-service/user-service-client</module>
-        <module>user-service/user-service-dto</module>
-        <module>user-service/user-service-enum</module>
+        <module>user-service/evoice-user-service-client</module>
+        <module>user-service/evoice-user-service-dto</module>
+        <module>user-service/evoice-user-service-enum</module>
     </modules>
 
 </project>
