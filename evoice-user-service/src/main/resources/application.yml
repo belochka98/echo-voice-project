@@ -2,7 +2,7 @@ spring:
   config:
     import: classpath:env.properties
   application:
-    name: echoVoice-user-service
+    name: evoice-user-service
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true

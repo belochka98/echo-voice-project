@@ -1,6 +1,6 @@
 package userService.entity;
 
-import userService.entity.enums.AccountTypeName;
+import enm.AccountTypeName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;

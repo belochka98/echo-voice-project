@@ -9,10 +9,12 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>user-service/evoice-user-service-client</module>
-        <module>user-service/evoice-user-service-dto</module>
-        <module>user-service/evoice-user-service-enum</module>
-    </modules>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
 
+    <modules>
+        <module>evoice-user-service-data</module>
+    </modules>
 </project>

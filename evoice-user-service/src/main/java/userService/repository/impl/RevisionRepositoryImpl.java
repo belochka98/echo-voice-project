@@ -1,14 +1,14 @@
 package userService.repository.impl;
 
-import userService.dto.filter.RevisionFilterDto;
-import userService.entity.envers.RevisionChange;
-import userService.repository.RevisionRepository;
-import userService.repository.utills.RepositoryUtills;
+import dto.filter.RevisionFilterDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.stereotype.Repository;
+import userService.entity.envers.RevisionChange;
+import userService.repository.RevisionRepository;
+import userService.repository.utills.RepositoryUtills;
 
 import java.util.Collection;
 import java.util.Collections;

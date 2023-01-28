@@ -1,6 +1,6 @@
 package userService.configuration;
 
-import userService.controller.utills.response.ResultResponseFactory;
+import dto.response.ResultResponseFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

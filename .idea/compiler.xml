@@ -7,19 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="evoice-user-service-client" />
-        <module name="evoice-user-service-enum" />
+        <module name="evoice-naming-service" />
         <module name="evoice-user-service" />
-        <module name="evoice-user-service-dto" />
+        <module name="evoice-user-service-data" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="evoice-user-service-dto" target="17" />
+      <module name="evoice-user-service-enum" target="1.5" />
+      <module name="evoice-user-service-enums" target="17" />
       <module name="platform-data" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="evoice-naming-service" options="-parameters" />
       <module name="evoice-user-service" options="-parameters" />
+      <module name="evoice-user-service-enum" options="-parameters" />
     </option>
   </component>
 </project>

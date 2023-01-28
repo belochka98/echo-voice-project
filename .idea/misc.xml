@@ -7,15 +7,20 @@
         <option value="$PROJECT_DIR$/platform/pom.xml" />
         <option value="$PROJECT_DIR$/user-service/pom.xml" />
         <option value="$PROJECT_DIR$/evoice-user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/evoice-user-service-enum/pom.xml" />
+        <option value="$PROJECT_DIR$/evoice-naming-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/platform/platform-data/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/user-service/evoice-user-service-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/user-service/evoice-user-service-enum/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/user-service/evoice-user-service-enums/pom.xml" />
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager">
+  <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SwUserDefinedSpecifications">
