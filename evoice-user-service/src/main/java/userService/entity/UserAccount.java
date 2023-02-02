@@ -37,12 +37,14 @@ public class UserAccount {
     @Column(name = "password")
     private String password;
 
+    // ToDo: rework?
     @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "account_id")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private Account account;
 
+    // ToDo: rework?
     @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "user_id")

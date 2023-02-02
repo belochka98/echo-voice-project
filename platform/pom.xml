@@ -10,11 +10,15 @@
     <packaging>pom</packaging>
 
     <properties>
+        <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <modules>
+        <module>evoice-core-service-data</module>
+        <module>evoice-api-service-data</module>
+        <module>evoice-authentication-service-data</module>
         <module>evoice-user-service-data</module>
     </modules>
 </project>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <!-- UUID !-->
+    <property name="uuid_type" value="VARCHAR(32 CHAR)" dbms="hsqldb"/>
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_type" value="VARCHAR(32)" dbms="oracle"/>
+
+    <property name="uuid_function" value="UUID()" dbms="hsqldb"/>
+    <property name="uuid_function" value="uuid_in(md5(random()::text || now()::text)::cstring)" dbms="postgresql"/>
+    <property name="uuid_function" value="sys_guid()" dbms="oracle"/>
+
+    <!-- BOOLEAN !-->
+    <property name="boolean_type" value="NUMBER(1,0)" dbms="oracle"/>
+    <property name="boolean_type" value="boolean" dbms="postgresql"/>
+
+    <property name="boolean_true" value="1" dbms="oracle"/>
+    <property name="boolean_true" value="true"/>
+
+    <property name="boolean_false" value="0" dbms="oracle"/>
+    <property name="boolean_false" value="false"/>
+
+    <property name="boolean_int" value="NUMBER(1,0)" dbms="hsqldb"/>
+    <property name="boolean_int" value="NUMBER(1,0)" dbms="postgresql"/>
+    <property name="boolean_int" value="NUMBER(1,0)" dbms="oracle"/>
+
+    <!-- TIMESTAMP !-->
+    <property name="timestamp_with_time_zone_type" value="TIMESTAMP WITH TIME ZONE" dbms="hsqldb"/>
+    <property name="timestamp_with_time_zone_type" value="TIMESTAMP WITH TIME ZONE" dbms="postgresql"/>
+    <property name="timestamp_with_time_zone_type" value="TIMESTAMP WITH TIME ZONE" dbms="oracle"/>
+
+    <property name="timestamp_type" value="TIMESTAMP" dbms="hsqldb"/>
+    <property name="timestamp_type" value="TIMESTAMP" dbms="postgresql"/>
+    <property name="timestamp_type" value="TIMESTAMP" dbms="oracle"/>
+
+    <property name="current_timestamp" value="CURRENT_TIMESTAMP" dbms="hsqldb"/>
+    <property name="current_timestamp" value="CURRENT_TIMESTAMP" dbms="postgresql"/>
+    <property name="current_timestamp" value="CURRENT_TIMESTAMP" dbms="oracle"/>
+
+    <!-- VARCHAR !-->
+    <property name="varchar_type" value="VARCHAR" dbms="hsqldb"/>
+    <property name="varchar_type" value="VARCHAR2" dbms="oracle"/>
+    <property name="varchar_type" value="VARCHAR" dbms="postgresql"/>
+
+    <property name="varcharUnit" value="CHAR" dbms="oracle"/>
+    <property name="varcharUnit" value=""/>
+
+    <!-- OTHERS !-->
+    <property name="db_user_name" value="sa" dbms="hsqldb"/>
+    <property name="db_user_name" value="postgres" dbms="postgresql"/>
+    <property name="db_user_name" value="" dbms="oracle"/>
+    <property name="author" value="belochka"/>
+</databaseChangeLog>

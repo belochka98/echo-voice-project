@@ -160,5 +160,4 @@
         <sql>GRANT SELECT ON account_audit TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON user_account_audit TO ${db_user_name}</sql>
     </changeSet>
-
 </databaseChangeLog>

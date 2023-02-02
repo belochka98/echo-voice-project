@@ -168,5 +168,4 @@
             <column name="user_id" valueComputed="(select id from user_application where name = 'TEST_USERNAME')"/>
         </insert>
     </changeSet>
-
 </databaseChangeLog>

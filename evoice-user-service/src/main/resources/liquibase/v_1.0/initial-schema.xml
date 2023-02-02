@@ -112,5 +112,4 @@
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account TO ${db_user_name}</sql>
     </changeSet>
-
 </databaseChangeLog>

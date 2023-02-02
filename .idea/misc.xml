@@ -9,6 +9,10 @@
         <option value="$PROJECT_DIR$/evoice-user-service/pom.xml" />
         <option value="$PROJECT_DIR$/platform/evoice-user-service-enum/pom.xml" />
         <option value="$PROJECT_DIR$/evoice-naming-service/pom.xml" />
+        <option value="$PROJECT_DIR$/evoice-authentication-service/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/evoice-authentication-service-data/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/evoice-api-service-data/pom.xml" />
+        <option value="$PROJECT_DIR$/platform/evoice-core-service-data/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

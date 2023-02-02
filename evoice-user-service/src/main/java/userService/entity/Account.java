@@ -40,6 +40,7 @@ public class Account {
     @Column(name = "max_count_users")
     private String maxCountUsers;
 
+    // ToDo: rework?
     @Fetch(FetchMode.JOIN)
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "account_type_id")

@@ -1,6 +1,6 @@
 package userService.controller;
 
-import client.api.UserApi;
+import client.controller.UserController;
 import dto.UserDto;
 import dto.envers.RevisionDto;
 import dto.response.ResultResponse;
@@ -8,12 +8,8 @@ import dto.response.ResultResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import userService.mapper.RevisionMapper;
 import userService.mapper.UserMapper;
@@ -29,17 +25,15 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Validated
 @RestController
-@RequestMapping("/users")
 @CrossOrigin(methods = {GET, POST, DELETE})
 @RequiredArgsConstructor
-public class UserController implements UserApi {
+public class UserControllerImpl implements UserController {
     private final ResultResponseFactory responseFactory;
     private final UserService userService;
     private final UserMapper userMapper;
     private final RevisionMapper revisionMapper;
 
     @Override
-    @GetMapping("/{userId}")
     public ResultResponse<UserDto> getUserById(@PathVariable UUID userId) {
         return responseFactory.createResponseOk(
                 userMapper.apply(userService.getUser(userId))
@@ -47,7 +41,6 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @GetMapping("/all")
     public ResultResponse<Collection<UserDto>> getAllUsers() {
         return responseFactory.createResponseOk(
                 userMapper.to(userService.getAllUsers())
@@ -55,7 +48,6 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @PostMapping("/save")
     public ResultResponse<UserDto> saveUser(@RequestBody UserDto user) {
         return responseFactory.createResponseOk(
                 userMapper.apply(userService.saveUser(userMapper.apply(user)))
@@ -63,19 +55,16 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);
     }
 
     @Override
-    @GetMapping("/revisions/all/{userId}")
     public Collection<RevisionDto> getAllRevisions(@PathVariable UUID userId) {
         return revisionMapper.mapRevisions(userService.getRevisions(userId).stream().collect(Collectors.toSet()));
     }
 
     @Override
-    @GetMapping("/revisions/last/{userId}")
     public RevisionDto getLastRevision(@PathVariable UUID userId) {
         return revisionMapper.apply(userService.getLastRevision(userId));
     }

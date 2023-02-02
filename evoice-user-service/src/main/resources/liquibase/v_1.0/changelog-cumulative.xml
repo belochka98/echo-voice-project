@@ -8,5 +8,4 @@
     <include file="initial-schema.xml" relativeToChangelogFile="true"/>
     <include file="initial-envers.xml" relativeToChangelogFile="true"/>
     <include file="initial-data.xml" relativeToChangelogFile="true"/>
-
 </databaseChangeLog>

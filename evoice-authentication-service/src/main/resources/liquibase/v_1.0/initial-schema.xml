@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="create-table-user-credentials" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="user_credentials"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_credentials" remarks="Учетная запись">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="user_credentials_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="${boolean_type}" defaultValue="true" remarks="Наименование УЗ">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="${varchar_type}(120)" remarks="Пароль УЗ">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-role" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="role_application"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="role_application" remarks="Роль">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="role_application_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя роли">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user-role" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="user_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_role" remarks="Роли для УЗ">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="user_role_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="${uuid_type}" remarks="Идентификатор УЗ">
+                <constraints foreignKeyName="user_role_user_credentials_fk01" references="user_credentials(id)"
+                             nullable="false"/>
+            </column>
+            <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
+                <constraints foreignKeyName="user_role_role_application_fk01" references="role_application(id)"
+                             nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-action" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="action"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="action" remarks="Действие">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="action_type_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя действия">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group_name" type="${varchar_type}(120)" remarks="Имя группы действий">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-role-action" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="role_action"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="role_action" remarks="Действия для роли">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="role_action_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="action_id" type="${uuid_type}" remarks="Идентификатор действия">
+                <constraints foreignKeyName="role_action_action_fk01" references="action(id)" nullable="false"/>
+            </column>
+            <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
+                <constraints foreignKeyName="role_action_role_application_fk01" references="role_application(id)"
+                             nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add-grants-to-tables" author="${author}">
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_application TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_role TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON action TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_action TO ${db_user_name}</sql>
+    </changeSet>
+</databaseChangeLog>
