@@ -2,8 +2,8 @@ package authenticationService.controller;
 
 import authenticationService.service.impl.AuthenticationServiceImpl;
 import client.controller.AuthenticationController;
+import component.response.ResultResponseFactory;
 import dto.response.ResultResponse;
-import dto.response.ResultResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;

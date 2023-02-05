@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "role_application")
+@Table(name = "role_")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Role {

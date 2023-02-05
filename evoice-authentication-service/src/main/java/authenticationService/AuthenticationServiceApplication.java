@@ -1,11 +1,13 @@
 package authenticationService;
 
+import annotation.EnableAPICore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-@SpringBootApplication
+@EnableAPICore
 @EnableDiscoveryClient
+@SpringBootApplication
 public class AuthenticationServiceApplication {
 
     public static void main(String[] args) {

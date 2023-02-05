@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user_application")
+@Table(name = "user_")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Audited

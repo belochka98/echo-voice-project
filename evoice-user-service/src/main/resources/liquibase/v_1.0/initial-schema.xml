@@ -10,7 +10,7 @@
             </not>
         </preConditions>
 
-        <createTable tableName="user_application" remarks="Пользователь">
+        <createTable tableName="user_" remarks="Пользователь">
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints primaryKeyName="user_application_pkey" primaryKey="true" nullable="false"/>
             </column>
@@ -32,84 +32,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-table-account-type" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="account_type"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="account_type" remarks="Тип учетной записи">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="account_type_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="${varchar_type}(120)" remarks="Имя типа учетной записи">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-account" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="account"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="account" remarks="Учетная запись">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="account_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="${varchar_type}(120)" remarks="Имя учетной записи">
-                <constraints nullable="false"/>
-            </column>
-            <column name="max_count_users" type="number" defaultValue="1"
-                    remarks="Максимально возможное количество участников учетной записи">
-                <constraints nullable="false"/>
-            </column>
-            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
-                <constraints foreignKeyName="account_account_type_fk" references="account_type(id)" nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-user-account" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="user_account"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="user_account" remarks="Учетная запись пользователя">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="user_account_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="username" type="${varchar_type}(60)" remarks="Логин">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="${varchar_type}(60)" remarks="Пароль">
-                <constraints nullable="false"/>
-            </column>
-            <column name="account_id" type="${uuid_type}" remarks="Учетная запись">
-                <constraints foreignKeyName="user_account_account_fk01" references="account(id)" nullable="false"/>
-            </column>
-            <column name="user_id" type="${uuid_type}" remarks="Пользователь">
-                <constraints foreignKeyName="user_account_account_fk02" references="user_application(id)"
-                             nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
     <changeSet id="add-grants-to-tables" author="${author}">
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_application TO ${db_user_name}</sql>
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account_type TO ${db_user_name}</sql>
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account TO ${db_user_name}</sql>
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_ TO ${db_user_name}</sql>
     </changeSet>
 </databaseChangeLog>

@@ -9,7 +9,7 @@
     <property name="uuid_type" value="VARCHAR(32)" dbms="oracle"/>
 
     <property name="uuid_function" value="UUID()" dbms="hsqldb"/>
-    <property name="uuid_function" value="uuid_in(md5(random()::text || now()::text)::cstring)" dbms="postgresql"/>
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
     <property name="uuid_function" value="sys_guid()" dbms="oracle"/>
 
     <!-- BOOLEAN !-->

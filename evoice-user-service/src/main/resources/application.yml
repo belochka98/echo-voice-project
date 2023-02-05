@@ -16,7 +16,7 @@ spring:
             revision_type_field_name: revision_operation
             store_data_at_delete: true
             # track_entities_changed_in_revision: true
-            # audit_strategy: org.hibernate.envers.strategy.ValidityAuditStrategy
+            # audit_strategy: org.hibernate.response.strategy.ValidityAuditStrategy
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DATABASE_URL}
@@ -36,14 +36,6 @@ spring:
           default:
             connect-timeout: 5000
             read-timeout: 50000
-
-# EUREKA-SERVER (NAMING-SERVICE) PROPERTIES
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eurekauser:eureka!@localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
 
 # THIS SERVICE OTHER PROPERTIES
 server:

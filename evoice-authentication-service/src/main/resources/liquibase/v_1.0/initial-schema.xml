@@ -23,14 +23,82 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-table-role" author="${author}">
+    <changeSet id="create-table-account-type" author="${author}">
         <preConditions onFail="MARK_RAN" onError="CONTINUE">
             <not>
-                <tableExists tableName="role_application"/>
+                <tableExists tableName="account_type"/>
             </not>
         </preConditions>
 
-        <createTable tableName="role_application" remarks="Роль">
+        <createTable tableName="account_type" remarks="Тип учетной записи">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="account_type_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя типа учетной записи">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-account" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="account"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="account" remarks="Учетная запись">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="account_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="${varchar_type}(120)" remarks="Имя учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_count_users" type="number" defaultValue="1"
+                    remarks="Максимально возможное количество участников учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+                <constraints foreignKeyName="account_account_type_fk" references="account_type(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user-account" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="user_account"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_account" remarks="Учетная запись пользователя">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="user_account_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_credentials_id" type="${uuid_type}" remarks="Пользователь">
+                <constraints foreignKeyName="user_account_user_credentials_fk01" references="user_credentials(id)"
+                             nullable="false"/>
+            </column>
+            <column name="account_id" type="${uuid_type}" remarks="Учетная запись">
+                <constraints foreignKeyName="user_account_account_fk02" references="account(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-role" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="role_"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="role_" remarks="Роль">
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints primaryKeyName="role_application_pkey" primaryKey="true" nullable="false"/>
             </column>
@@ -39,28 +107,6 @@
             </column>
             <column name="name" type="${varchar_type}(120)" remarks="Имя роли">
                 <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-user-role" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="user_role"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="user_role" remarks="Роли для УЗ">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="user_role_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_id" type="${uuid_type}" remarks="Идентификатор УЗ">
-                <constraints foreignKeyName="user_role_user_credentials_fk01" references="user_credentials(id)"
-                             nullable="false"/>
-            </column>
-            <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
-                <constraints foreignKeyName="user_role_role_application_fk01" references="role_application(id)"
-                             nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -99,20 +145,46 @@
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints primaryKeyName="role_action_pkey" primaryKey="true" nullable="false"/>
             </column>
+            <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
+                <constraints foreignKeyName="role_action_role_fk01" references="role_(id)"
+                             nullable="false"/>
+            </column>
             <column name="action_id" type="${uuid_type}" remarks="Идентификатор действия">
                 <constraints foreignKeyName="role_action_action_fk01" references="action(id)" nullable="false"/>
             </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-user-account-role" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="user_account_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_account_role" remarks="Роли для УЗ">
+            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
+                <constraints primaryKeyName="user_account_role_pkey" primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_account_id" type="${uuid_type}" remarks="Идентификатор УЗ">
+                <constraints foreignKeyName="user_account_role_user_credentials_fk01" references="user_credentials(id)"
+                             nullable="false"/>
+            </column>
             <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
-                <constraints foreignKeyName="role_action_role_application_fk01" references="role_application(id)"
+                <constraints foreignKeyName="user_account_role_role_fk01" references="role_(id)"
                              nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
     <changeSet id="add-grants-to-tables" author="${author}">
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_application TO ${db_user_name}</sql>
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_role TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_credentials TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account_type TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_ TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON action TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_action TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account_role TO ${db_user_name}</sql>
     </changeSet>
 </databaseChangeLog>

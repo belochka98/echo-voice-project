@@ -8,14 +8,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="evoice-naming-service" />
-        <module name="evoice-authentication-service-data" />
+        <module name="evoice-authentication-api" />
         <module name="evoice-authentication-service" />
-        <module name="evoice-api-service-data" />
         <module name="evoice-user-service" />
-        <module name="evoice-user-service-data" />
+        <module name="evoice-api-core" />
+        <module name="evoice-user-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="evoice-envers-core" target="17" />
       <module name="evoice-user-service-dto" target="17" />
       <module name="evoice-user-service-enum" target="1.5" />
       <module name="evoice-user-service-enums" target="17" />
@@ -25,8 +26,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="evoice-authentication-service" options="-parameters" />
-      <module name="evoice-core-service-data" options="-parameters" />
+      <module name="evoice-envers-core" options="" />
       <module name="evoice-naming-service" options="-parameters" />
+      <module name="evoice-service-parent" options="-parameters" />
       <module name="evoice-user-service" options="-parameters" />
       <module name="evoice-user-service-enum" options="-parameters" />
     </option>

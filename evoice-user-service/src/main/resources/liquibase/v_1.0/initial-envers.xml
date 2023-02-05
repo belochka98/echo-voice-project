@@ -50,14 +50,14 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-table-user-application-audit" author="${author}">
+    <changeSet id="create-table-user-audit" author="${author}">
         <preConditions onFail="MARK_RAN" onError="CONTINUE">
             <not>
-                <tableExists tableName="user_application_audit"/>
+                <tableExists tableName="user_audit"/>
             </not>
         </preConditions>
 
-        <createTable tableName="user_application_audit" remarks="История изменения пользователя">
+        <createTable tableName="user_audit" remarks="История изменения пользователя">
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints nullable="false"/>
             </column>
@@ -77,74 +77,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="revision_id" type="bigint" remarks="№ ревизии">
-                <constraints foreignKeyName="user_application_audit_fkey" references="revision_info_envers(id)"
-                             nullable="false"/>
-            </column>
-            <column name="revision_operation" type="smallint" remarks="Тип операции">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-account-audit" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="account_audit"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="account_audit" remarks="История изменения учетной записи">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="account_audit_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="${varchar_type}(120)" remarks="Имя учетной записи">
-                <constraints nullable="false"/>
-            </column>
-            <column name="max_count_users" type="number" defaultValue="1"
-                    remarks="Максимально возможное количество участников учетной записи">
-                <constraints nullable="false"/>
-            </column>
-            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revision_id" type="bigint" remarks="№ ревизии">
-                <constraints foreignKeyName="account_audit_fkey" references="revision_info_envers(id)"
-                             nullable="false"/>
-            </column>
-            <column name="revision_operation" type="smallint" remarks="Тип операции">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-user-account-audit" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="user_account_audit"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="user_account_audit" remarks="История изменения учетной записи пользователя">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="user_account_audit_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="username" type="${varchar_type}(60)" remarks="Логин">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="${varchar_type}(60)" remarks="Пароль">
-                <constraints nullable="false"/>
-            </column>
-            <column name="account_id" type="${uuid_type}" remarks="Учетная запись">
-                <constraints nullable="false"/>
-            </column>
-            <column name="user_id" type="${uuid_type}" remarks="Пользователь">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revision_id" type="bigint" remarks="№ ревизии">
-                <constraints foreignKeyName="user_account_audit_fkey" references="revision_info_envers(id)"
+                <constraints foreignKeyName="user_audit_fkey" references="revision_info_envers(id)"
                              nullable="false"/>
             </column>
             <column name="revision_operation" type="smallint" remarks="Тип операции">
@@ -156,8 +89,6 @@
     <changeSet id="add-grants-to-tables" author="${author}">
         <sql>GRANT SELECT ON revision_info_envers TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON revision_changes_envers TO ${db_user_name}</sql>
-        <sql>GRANT SELECT ON user_application_audit TO ${db_user_name}</sql>
-        <sql>GRANT SELECT ON account_audit TO ${db_user_name}</sql>
-        <sql>GRANT SELECT ON user_account_audit TO ${db_user_name}</sql>
+        <sql>GRANT SELECT ON user_ TO ${db_user_name}</sql>
     </changeSet>
 </databaseChangeLog>

@@ -1,12 +1,10 @@
 package userService.mapper;
 
-import dto.envers.RevisionChangeDto;
 import dto.envers.RevisionDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.history.Revision;
-import userService.entity.envers.RevisionChange;
 import userService.entity.envers.RevisionEntityCustom;
 
 import java.time.Instant;
@@ -24,12 +22,4 @@ public interface RevisionMapper {
     RevisionDto apply(Revision source);
 
     Collection<RevisionDto> mapRevisions(Collection<Revision> source);
-
-
-    @Mapping(target = "revisionId", source = "revision.id")
-    @Mapping(target = "revisionDate", expression = "java(Instant.ofEpochMilli(source.getRevision().getId()).atZone(ZoneId.systemDefault()).toLocalDate())")
-    @Mapping(target = "revisionOperation", source = "operation")
-    RevisionChangeDto apply(RevisionChange source);
-
-    Collection<RevisionChangeDto> mapRevisionChanges(Collection<RevisionChange> source);
 }

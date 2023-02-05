@@ -16,9 +16,15 @@
     </properties>
 
     <modules>
-        <module>evoice-core-service-data</module>
-        <module>evoice-api-service-data</module>
-        <module>evoice-authentication-service-data</module>
-        <module>evoice-user-service-data</module>
+        <!-- CORE DEPENDENCIES -->
+        <module>core/evoice-api-core</module>
+
+        <!-- PARENT DEPENDENCIES -->
+        <module>parent/evoice-api-parent</module>
+        <module>parent/evoice-service-parent</module>
+
+        <!-- API DEPENDENCIES -->
+        <module>api/evoice-authentication-api</module>
+        <module>api/evoice-user-api</module>
     </modules>
 </project>

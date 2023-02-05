@@ -5,14 +5,14 @@
 
     <parent>
         <groupId>evoice</groupId>
-        <artifactId>evoice-core-service-data</artifactId>
+        <artifactId>evoice-service-parent</artifactId>
         <version>1.0.0</version>
         <relativePath/>
     </parent>
 
     <artifactId>evoice-authentication-service</artifactId>
     <version>1.0.0</version>
-    <name>Authentication service</name>
+    <name>evoice-authentication-service</name>
     <description>Service provider of authentication data and the main processing link</description>
 
     <dependencies>
@@ -38,14 +38,16 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
         </dependency>
+
+        <!-- EVOICE -->
         <dependency>
             <groupId>evoice</groupId>
-            <artifactId>evoice-authentication-service-data</artifactId>
+            <artifactId>evoice-authentication-api</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>evoice</groupId>
-            <artifactId>evoice-user-service-data</artifactId>
+            <artifactId>evoice-user-api</artifactId>
             <version>1.0.0</version>
         </dependency>
 

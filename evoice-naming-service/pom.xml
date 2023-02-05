@@ -13,7 +13,7 @@
     <groupId>evoice</groupId>
     <artifactId>evoice-naming-service</artifactId>
     <version>1.0.0</version>
-    <name>Naming service</name>
+    <name>evoice-naming-service</name>
     <description>Service provider of naming-service data and the main processing link</description>
 
     <properties>

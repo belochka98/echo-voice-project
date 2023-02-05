@@ -1,0 +1,6 @@
+client\feign\AuthenticationClient.class
+client\controller\AuthenticationController.class
+client\api\AuthenticationApi.class
+client\api\RevisionApi.class
+client\controller\RevisionController.class
+client\feign\RevisionClient.class

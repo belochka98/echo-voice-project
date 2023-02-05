@@ -5,20 +5,21 @@
 
     <parent>
         <groupId>evoice</groupId>
-        <artifactId>evoice-core-service-data</artifactId>
+        <artifactId>evoice-service-parent</artifactId>
         <version>1.0.0</version>
         <relativePath/>
     </parent>
 
     <artifactId>evoice-user-service</artifactId>
     <version>1.0.0</version>
-    <name>User service</name>
+    <name>evoice-user-service</name>
     <description>Service provider of user data and the main processing link</description>
 
     <dependencies>
+        <!-- EVOICE -->
         <dependency>
             <groupId>evoice</groupId>
-            <artifactId>evoice-user-service-data</artifactId>
+            <artifactId>evoice-user-api</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

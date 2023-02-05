@@ -1,10 +1,10 @@
 package userService.controller;
 
 import client.controller.UserController;
+import component.response.ResultResponseFactory;
 import dto.UserDto;
 import dto.envers.RevisionDto;
 import dto.response.ResultResponse;
-import dto.response.ResultResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,7 +31,7 @@ public class UserControllerImpl implements UserController {
     private final ResultResponseFactory responseFactory;
     private final UserService userService;
     private final UserMapper userMapper;
-    private final RevisionMapper revisionMapper;
+    private final RevisionMapper revisionMapperDefault;
 
     @Override
     public ResultResponse<UserDto> getUserById(@PathVariable UUID userId) {
@@ -61,11 +61,11 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public Collection<RevisionDto> getAllRevisions(@PathVariable UUID userId) {
-        return revisionMapper.mapRevisions(userService.getRevisions(userId).stream().collect(Collectors.toSet()));
+        return revisionMapperDefault.mapRevisions(userService.getRevisions(userId).stream().collect(Collectors.toSet()));
     }
 
     @Override
     public RevisionDto getLastRevision(@PathVariable UUID userId) {
-        return revisionMapper.apply(userService.getLastRevision(userId));
+        return revisionMapperDefault.apply(userService.getLastRevision(userId));
     }
 }

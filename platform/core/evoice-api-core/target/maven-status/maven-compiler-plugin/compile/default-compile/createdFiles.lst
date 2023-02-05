@@ -1,0 +1,10 @@
+dto\envers\RevisionChangeDto.class
+enm\ResultCode.class
+dto\envers\RevisionDto.class
+dto\envers\RevisionFilterDto$RevisionFilterDtoBuilder.class
+dto\envers\RevisionFilterDto.class
+dto\response\ResultResponse.class
+component\response\ResultResponseFactory.class
+annotation\EnableAPICore.class
+dto\response\ResponseError.class
+dto\response\ResponseOk.class

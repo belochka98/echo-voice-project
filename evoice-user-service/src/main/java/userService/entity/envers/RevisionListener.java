@@ -4,8 +4,8 @@ import jakarta.persistence.Table;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.envers.EntityTrackingRevisionListener;
 import org.hibernate.envers.RevisionType;
-import org.mapstruct.ap.internal.util.Strings;
 import org.springframework.data.history.RevisionMetadata;
+import org.springframework.util.StringUtils;
 
 import java.util.Set;
 
@@ -18,14 +18,14 @@ import static org.springframework.data.history.RevisionMetadata.RevisionType.UPD
 public class RevisionListener implements EntityTrackingRevisionListener {
     @Override
     public void newRevision(Object revisionEntityObject) {
-        RevisionEntityCustom revisionEntityCustom = (RevisionEntityCustom) revisionEntityObject;
+        final var revisionEntityCustom = (RevisionEntityCustom) revisionEntityObject;
 
         revisionEntityCustom.setUserName("belochka");
     }
 
     @Override
     public void entityChanged(Class aClass, String entityName, Object entityObject, RevisionType revisionType, Object revisionEntityObject) {
-        RevisionEntityCustom revisionEntityCustom = (RevisionEntityCustom) revisionEntityObject;
+        final var revisionEntityCustom = (RevisionEntityCustom) revisionEntityObject;
 
         RevisionChange revisionChange = RevisionChange
                 .builder()
@@ -49,7 +49,7 @@ public class RevisionListener implements EntityTrackingRevisionListener {
             log.error("Class with name: {" + entityName + "} not found");
         }
 
-        if (Strings.isEmpty(tableName)) {
+        if (StringUtils.hasLength((tableName))) {
             throw new NullPointerException("Audited entity-table must have name!");
         }
 
