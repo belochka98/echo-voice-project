@@ -3,7 +3,7 @@ package component.response;
 import dto.response.ResponseError;
 import dto.response.ResponseOk;
 import dto.response.ResultResponse;
-import enm.ResultCode;
+import enm.response.ResultCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

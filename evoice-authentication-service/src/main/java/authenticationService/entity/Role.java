@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import java.util.Set;
 import java.util.UUID;
@@ -34,9 +36,11 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    // ToDo: rework?
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "role_action",
                joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
                inverseJoinColumns = {@JoinColumn(name = "action_id", referencedColumnName = "id")})
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private Set<Action> actions;
 }

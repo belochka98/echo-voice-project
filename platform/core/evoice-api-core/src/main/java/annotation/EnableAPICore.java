@@ -1,5 +1,6 @@
 package annotation;
 
+import component.response.ResponseExceptionHandler;
 import component.response.ResultResponseFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
-@Import(ResultResponseFactory.class)
+@Import({ResultResponseFactory.class, ResponseExceptionHandler.class})
 @Configuration
 public @interface EnableAPICore {
 }

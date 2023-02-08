@@ -25,16 +25,16 @@ spring:
       maximum-pool-size: 5
   liquibase:
     change-log: classpath:/liquibase/db.changelog.xml
-  mvc:
-    servlet:
-      path: "/${spring.application.name}"
-  cloud:
-    openfeign:
-      client:
-        config:
-          default:
-            connect-timeout: 5000
-            read-timeout: 50000
+  #mvc:
+  #  servlet:
+  #    path: "/${spring.application.name}"
+  #cloud:
+  #  openfeign:
+  #    client:
+  #      config:
+  #        default:
+  #          connect-timeout: 5000
+  #          read-timeout: 50000
 
 # EUREKA-SERVER (NAMING-SERVICE) PROPERTIES
 eureka:

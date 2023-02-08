@@ -1,6 +1,7 @@
+enm\AccountTypeName.class
 client\feign\AuthenticationClient.class
-client\controller\AuthenticationController.class
 client\api\AuthenticationApi.class
+dto\AuthenticationUserDto.class
+dto\AuthenticationUserDto$AuthenticationUserDtoBuilder.class
 client\api\RevisionApi.class
-client\controller\RevisionController.class
 client\feign\RevisionClient.class

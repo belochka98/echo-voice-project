@@ -3,38 +3,6 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="insert-into-user-application" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <tableExists tableName="user_credentials"/>
-        </preConditions>
-
-        <insert tableName="user_credentials">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="name" value="DEFAULT_USERNAME"/>
-            <column name="name" value="DEFAULT_PASSWORD"/>
-        </insert>
-        <insert tableName="user_credentials">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="name" value="DEBUG_USERNAME"/>
-            <column name="name" value="DEBUG_PASSWORD"/>
-        </insert>
-        <insert tableName="user_credentials">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="name" value="TEST_USERNAME"/>
-            <column name="name" value="TEST_PASSWORD"/>
-        </insert>
-        <insert tableName="user_credentials">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="name" value="CORPORATION_USERNAME"/>
-            <column name="name" value="CORPORATION_PASSWORD"/>
-        </insert>
-        <insert tableName="user_credentials">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="name" value="CORPORATION2_USERNAME"/>
-            <column name="name" value="CORPORATION2_PASSWORD"/>
-        </insert>
-    </changeSet>
-
     <changeSet id="insert-into-account-type" author="${author}">
         <preConditions onFail="MARK_RAN" onError="CONTINUE">
             <tableExists tableName="account_type"/>
@@ -43,57 +11,26 @@
         <insert tableName="account_type">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="active" value="true"/>
-            <column name="name" value="DEFAULT"/>
-        </insert>
-        <insert tableName="account_type">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="active" value="true"/>
-            <column name="name" value="CORPORATION"/>
-        </insert>
-        <insert tableName="account_type">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="active" value="true"/>
-            <column name="name" value="DEBUG"/>
-        </insert>
-        <insert tableName="account_type">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="active" value="true"/>
-            <column name="name" value="TEST"/>
-        </insert>
-    </changeSet>
-
-    <changeSet id="insert-into-account" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <tableExists tableName="account"/>
-        </preConditions>
-
-        <insert tableName="account">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="active" value="true"/>
-            <column name="name" value="DEFAULT_ACCOUNT"/>
             <column name="max_count_users" value="1"/>
-            <column name="account_type_id" valueComputed="(select id from account_type where name = 'DEFAULT')"/>
+            <column name="account_type_name" value="DEFAULT"/>
         </insert>
-        <insert tableName="account">
+        <insert tableName="account_type">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="active" value="true"/>
-            <column name="name" value="CORPORATION_ACCOUNT"/>
             <column name="max_count_users" value="5"/>
-            <column name="account_type_id" valueComputed="(select id from account_type where name = 'CORPORATION')"/>
+            <column name="account_type_name" value="CORPORATION"/>
         </insert>
-        <insert tableName="account">
+        <insert tableName="account_type">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="active" value="true"/>
-            <column name="name" value="DEBUG_ACCOUNT"/>
             <column name="max_count_users" value="10"/>
-            <column name="account_type_id" valueComputed="(select id from account_type where name = 'DEBUG')"/>
+            <column name="account_type_name" value="DEBUG"/>
         </insert>
-        <insert tableName="account">
+        <insert tableName="account_type">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="active" value="true"/>
-            <column name="name" value="TEST_ACCOUNT"/>
             <column name="max_count_users" value="15"/>
-            <column name="account_type_id" valueComputed="(select id from account_type where name = 'TEST')"/>
+            <column name="account_type_name" value="TEST"/>
         </insert>
     </changeSet>
 
@@ -104,33 +41,38 @@
 
         <insert tableName="user_account">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="user_credentials_id"
-                    valueComputed="(select id from user_credentials where name = 'DEFAULT_USERNAME')"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'DEFAULT_ACCOUNT')"/>
+            <column name="user_name" value="DEFAULT_USERNAME"/>
+            <column name="password" value="DEFAULT_PASSWORD"/>
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'DEFAULT')"/>
         </insert>
         <insert tableName="user_account">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="user_credentials_id"
-                    valueComputed="(select id from user_credentials where name = 'CORPORATION_USERNAME')"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'CORPORATION_ACCOUNT')"/>
+            <column name="user_name" value="CORPORATION_USERNAME"/>
+            <column name="password" value="CORPORATION_PASSWORD"/>
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'CORPORATION')"/>
         </insert>
         <insert tableName="user_account">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="user_credentials_id"
-                    valueComputed="(select id from user_credentials where name = 'CORPORATION_USERNAME2')"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'CORPORATION_ACCOUNT')"/>
+            <column name="user_name" value="CORPORATION2_USERNAME"/>
+            <column name="password" value="CORPORATION2_PASSWORD"/>
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'CORPORATION')"/>
         </insert>
         <insert tableName="user_account">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="user_credentials_id"
-                    valueComputed="(select id from user_credentials where name = 'DEBUG_USERNAME')"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'DEBUG_ACCOUNT')"/>
+            <column name="user_name" value="DEBUG_USERNAME"/>
+            <column name="password" value="DEBUG_PASSWORD"/>
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'DEBUG')"/>
         </insert>
         <insert tableName="user_account">
             <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="user_credentials_id"
-                    valueComputed="(select id from user_credentials where name = 'TEST_USERNAME')"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'TEST_ACCOUNT')"/>
+            <column name="user_name" value="TEST_USERNAME"/>
+            <column name="password" value="TEST_PASSWORD"/>
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'TEST')"/>
         </insert>
     </changeSet>
 
@@ -198,24 +140,47 @@
         </preConditions>
 
         <insert tableName="role_action">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'TEST_ROLE')"/>
             <column name="action_id" valueComputed="(select id from action where name = 'TEST_ACTION')"/>
         </insert>
         <insert tableName="role_action">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'DEFAULT_ROLE')"/>
             <column name="action_id" valueComputed="(select id from action where name = 'DEFAULT_ACTION')"/>
         </insert>
         <insert tableName="role_action">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'DEBUG_ROLE')"/>
             <column name="action_id" valueComputed="(select id from action where name = 'DEBUG_ACTION')"/>
         </insert>
         <insert tableName="role_action">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'CORPORATION_ROLE')"/>
             <column name="action_id" valueComputed="(select id from action where name = 'CORPORATION_ACTION')"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert-into-account-role" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <tableExists tableName="account_role"/>
+        </preConditions>
+
+        <insert tableName="account_role">
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'DEFAULT')"/>
+            <column name="role_id" valueComputed="(select id from role_ where name = 'DEFAULT_ROLE')"/>
+        </insert>
+        <insert tableName="account_role">
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'TEST')"/>
+            <column name="role_id" valueComputed="(select id from role_ where name = 'TEST_ROLE')"/>
+        </insert>
+        <insert tableName="account_role">
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'DEBUG')"/>
+            <column name="role_id" valueComputed="(select id from role_ where name = 'DEBUG_ROLE')"/>
+        </insert>
+        <insert tableName="account_role">
+            <column name="account_type_id"
+                    valueComputed="(select id from account_type where account_type_name = 'CORPORATION')"/>
+            <column name="role_id" valueComputed="(select id from role_ where name = 'CORPORATION_ROLE')"/>
         </insert>
     </changeSet>
 
@@ -225,23 +190,23 @@
         </preConditions>
 
         <insert tableName="user_account_role">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'TEST_ACCOUNT')"/>
-            <column name="role_id" valueComputed="(select id from role_ where name = 'TEST_ROLE')"/>
-        </insert>
-        <insert tableName="user_account_role">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'DEFAULT_ACCOUNT')"/>
+            <column name="user_account_id"
+                    valueComputed="(select id from user_account where user_name = 'DEFAULT_USERNAME')"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'DEFAULT_ROLE')"/>
         </insert>
         <insert tableName="user_account_role">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'DEBUG_ACCOUNT')"/>
+            <column name="user_account_id"
+                    valueComputed="(select id from user_account where user_name = 'TEST_USERNAME')"/>
+            <column name="role_id" valueComputed="(select id from role_ where name = 'TEST_ROLE')"/>
+        </insert>
+        <insert tableName="user_account_role">
+            <column name="user_account_id"
+                    valueComputed="(select id from user_account where user_name = 'DEBUG_USERNAME')"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'DEBUG_ROLE')"/>
         </insert>
         <insert tableName="user_account_role">
-            <column name="id" valueComputed="(select uuid_generate_v4())"/>
-            <column name="account_id" valueComputed="(select id from account where name = 'CORPORATION_ACCOUNT')"/>
+            <column name="user_account_id"
+                    valueComputed="(select id from user_account where user_name = 'CORPORATION_USERNAME')"/>
             <column name="role_id" valueComputed="(select id from role_ where name = 'CORPORATION_ROLE')"/>
         </insert>
     </changeSet>

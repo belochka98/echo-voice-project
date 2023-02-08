@@ -8,7 +8,7 @@ package dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import enm.ResultCode;
+import enm.response.ResultCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;

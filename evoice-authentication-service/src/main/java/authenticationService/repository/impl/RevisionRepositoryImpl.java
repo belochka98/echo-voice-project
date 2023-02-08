@@ -2,7 +2,7 @@ package authenticationService.repository.impl;
 
 import authenticationService.entity.envers.RevisionChange;
 import authenticationService.repository.RevisionRepository;
-import authenticationService.repository.utills.RepositoryUtills;
+import authenticationService.utills.RepositoryUtills;
 import dto.envers.RevisionFilterDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

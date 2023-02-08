@@ -3,26 +3,6 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="create-table-user-credentials" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="user_credentials"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="user_credentials" remarks="Учетная запись">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="user_credentials_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="${boolean_type}" defaultValue="true" remarks="Наименование УЗ">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="${varchar_type}(120)" remarks="Пароль УЗ">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
     <changeSet id="create-table-account-type" author="${author}">
         <preConditions onFail="MARK_RAN" onError="CONTINUE">
             <not>
@@ -32,40 +12,17 @@
 
         <createTable tableName="account_type" remarks="Тип учетной записи">
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="account_type_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="${varchar_type}(120)" remarks="Имя типа учетной записи">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-account" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="account"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="account" remarks="Учетная запись">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints primaryKeyName="account_pkey" primaryKey="true" nullable="false"/>
             </column>
             <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="${varchar_type}(120)" remarks="Имя учетной записи">
                 <constraints nullable="false"/>
             </column>
             <column name="max_count_users" type="number" defaultValue="1"
                     remarks="Максимально возможное количество участников учетной записи">
                 <constraints nullable="false"/>
             </column>
-            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
-                <constraints foreignKeyName="account_account_type_fk" references="account_type(id)" nullable="false"/>
+            <column name="account_type_name" type="${varchar_type}(120)" remarks="Имя типа учетной записи">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -81,12 +38,20 @@
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints primaryKeyName="user_account_pkey" primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_credentials_id" type="${uuid_type}" remarks="Пользователь">
-                <constraints foreignKeyName="user_account_user_credentials_fk01" references="user_credentials(id)"
+            <column name="user_id" type="${uuid_type}" remarks="Пользователь"/>
+            <column name="user_name" type="${varchar_type}(120)" defaultValue="true"
+                    remarks="Наименование учетной записи пользователя">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="${varchar_type}(120)" remarks="Пароль учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+                <constraints foreignKeyName="user_account_account_type_fk02" references="account_type(id)"
                              nullable="false"/>
             </column>
-            <column name="account_id" type="${uuid_type}" remarks="Учетная запись">
-                <constraints foreignKeyName="user_account_account_fk02" references="account(id)" nullable="false"/>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -142,15 +107,31 @@
         </preConditions>
 
         <createTable tableName="role_action" remarks="Действия для роли">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="role_action_pkey" primaryKey="true" nullable="false"/>
-            </column>
             <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
                 <constraints foreignKeyName="role_action_role_fk01" references="role_(id)"
                              nullable="false"/>
             </column>
             <column name="action_id" type="${uuid_type}" remarks="Идентификатор действия">
                 <constraints foreignKeyName="role_action_action_fk01" references="action(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-table-account-role" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="account_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="account_role" remarks="Предустановленные роли для учетной записи">
+            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+                <constraints foreignKeyName="account_role_account_type_fk02" references="account_type(id)"
+                             nullable="false"/>
+            </column>
+            <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
+                <constraints foreignKeyName="account_role_role_fk01" references="role_(id)"
+                             nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -162,12 +143,9 @@
             </not>
         </preConditions>
 
-        <createTable tableName="user_account_role" remarks="Роли для УЗ">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="user_account_role_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_account_id" type="${uuid_type}" remarks="Идентификатор УЗ">
-                <constraints foreignKeyName="user_account_role_user_credentials_fk01" references="user_credentials(id)"
+        <createTable tableName="user_account_role" remarks="Роли для учетной записи пользователя">
+            <column name="user_account_id" type="${uuid_type}" remarks="Идентификатор учетной записи пользователя">
+                <constraints foreignKeyName="user_account_role_user_account_fk01" references="user_account(id)"
                              nullable="false"/>
             </column>
             <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
@@ -178,13 +156,12 @@
     </changeSet>
 
     <changeSet id="add-grants-to-tables" author="${author}">
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_credentials TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account_type TO ${db_user_name}</sql>
-        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_ TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON action TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON role_action TO ${db_user_name}</sql>
+        <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON account_role TO ${db_user_name}</sql>
         <sql>GRANT SELECT, INSERT, UPDATE, DELETE ON user_account_role TO ${db_user_name}</sql>
     </changeSet>
 </databaseChangeLog>

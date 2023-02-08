@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Audited
+@AuditTable("user_audit")
 public class User {
     @Id
     @GeneratedValue(generator = "uuid")

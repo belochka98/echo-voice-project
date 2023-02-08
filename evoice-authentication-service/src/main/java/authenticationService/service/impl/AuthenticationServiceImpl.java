@@ -1,52 +1,80 @@
 package authenticationService.service.impl;
 
-import authenticationService.component.UserAuthentication;
-import authenticationService.mapper.UserMapper;
-import authenticationService.repository.UserCredentialsRepository;
-import authenticationService.service.AuthentificationService;
+import authenticationService.entity.UserAccount;
+import authenticationService.repository.AccountTypeRepository;
+import authenticationService.repository.RoleRepository;
+import authenticationService.repository.UserAccountRepository;
+import authenticationService.service.AuthenticationService;
 import client.feign.UserClient;
+import dto.AuthenticationUserDto;
 import dto.UserDto;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl implements AuthentificationService {
-    private final UserClient userClient;
-    private final UserMapper userMapper;
-    private final UserCredentialsRepository userCredentialsRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
+    private final JwtServiceImpl jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserClient userClient;
+    private final AccountTypeRepository accountTypeRepository;
+    private final RoleRepository roleRepository;
+    private final UserAccountRepository userAccountRepository;
 
     @Override
-    public String registration(@NotEmpty String userName, @NotEmpty String password) {
+    @Transactional
+    public String registration(@NotNull AuthenticationUserDto authenticationUserDto) {
+        if (userAccountRepository.existsByUserNameAndPassword(authenticationUserDto.getUserName(), passwordEncoder.encode(authenticationUserDto.getPassword()))) {
+            throw new UnsupportedOperationException(String.format(
+                    "UserAccount already exists with data: {%s, %s}",
+                    authenticationUserDto.getUserName(),
+                    passwordEncoder.encode(authenticationUserDto.getPassword())
+            ));
+        }
+
+        final var accountType = accountTypeRepository.findByAccountTypeName(authenticationUserDto.getAccountTypeName()).orElseThrow(
+                () -> new NotFoundException(String.format("AccountType not found by name: [%s]", authenticationUserDto.getAccountTypeName()))
+        );
+
+        final var accountRoles = roleRepository.findAllByNameIn(authenticationUserDto.getUserRoles());
+        accountRoles.addAll(accountType.getDefaultRoles());
+
+        final var userAccount = userAccountRepository.save(
+                UserAccount.builder()
+                        .active(true)
+                        .userName(authenticationUserDto.getUserName())
+                        .password(passwordEncoder.encode(authenticationUserDto.getPassword()))
+                        .accountType(accountType)
+                        .userRoles(accountRoles)
+                        .build()
+        );
+
         final var userDto = userClient.saveUser(
                 UserDto.builder()
                         .active(true)
-                        .name(userName)
-                        .surname(password)
-                        .patronymic(null)
-                        .dateBirthday(null)
-                        .phone(null)
-                        .sex(true)
+                        .name(authenticationUserDto.getName())
+                        .surname(authenticationUserDto.getSurname())
+                        .patronymic(authenticationUserDto.getPatronymic())
+                        .dateBirthday(authenticationUserDto.getDateBirthday())
+                        .phone(authenticationUserDto.getPhone())
+                        .sex(authenticationUserDto.isSex())
                         .build()
         ).getData();
 
-        final var userCredentials = userCredentialsRepository.save(
-                userMapper.apply(userDto, passwordEncoder.encode(password))
-        );
+        userAccount.setUserId(userDto.getId());
 
-        return jwtService.generateToken(
-                userMapper.apply(userDto, userCredentials)
-        );
+        return jwtService.generateToken(userAccount);
     }
 
     @Override
@@ -58,15 +86,10 @@ public class AuthenticationServiceImpl implements AuthentificationService {
                 )
         );
 
-        return jwtService.generateToken(this.getByUserName(userName));
-    }
-
-    @Override
-    public UserAuthentication getByUserName(String userName) {
-        return userCredentialsRepository.findByName(userName).map(
-                uc -> userMapper.apply(userClient.getUserById(uc.getId()).getData(), uc)
-        ).orElseThrow(() -> new UsernameNotFoundException(
-                String.format("User not found by username: %s", userName)
-        ));
+        return jwtService.generateToken(
+                userAccountRepository.findByUserName(userName).orElseThrow(
+                        () -> new UsernameNotFoundException(String.format("User not found by username: %s", userName))
+                )
+        );
     }
 }

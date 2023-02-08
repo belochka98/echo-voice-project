@@ -1,6 +1,6 @@
 package authenticationService.component;
 
-import authenticationService.service.impl.JwtService;
+import authenticationService.service.impl.JwtServiceImpl;
 import authenticationService.utills.ApplicationUtills;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtService;
     private final UserDetailsService userDetailsService;
 
     @Override

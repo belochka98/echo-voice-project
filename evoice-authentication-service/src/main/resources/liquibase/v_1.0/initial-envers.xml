@@ -50,59 +50,29 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-table-user-credentials-audit" author="${author}">
+    <changeSet id="create-table-account-type-audit" author="${author}">
         <preConditions onFail="MARK_RAN" onError="CONTINUE">
             <not>
-                <tableExists tableName="user_credentials_audit"/>
+                <tableExists tableName="account_type_audit"/>
             </not>
         </preConditions>
 
-        <createTable tableName="user_credentials_audit" remarks="История изменения данных пользователя">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="${boolean_type}" defaultValue="true" remarks="Наименование УЗ">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type="${varchar_type}(120)" remarks="Пароль УЗ">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revision_id" type="bigint" remarks="№ ревизии">
-                <constraints foreignKeyName="user_credentials_audit_fkey" references="revision_info_envers(id)"
-                             nullable="false"/>
-            </column>
-            <column name="revision_operation" type="smallint" remarks="Тип операции">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="create-table-account-audit" author="${author}">
-        <preConditions onFail="MARK_RAN" onError="CONTINUE">
-            <not>
-                <tableExists tableName="account_audit"/>
-            </not>
-        </preConditions>
-
-        <createTable tableName="account_audit" remarks="История изменения учетной записи">
+        <createTable tableName="account_type_audit" remarks="История изменения типа учетной записи">
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints nullable="false"/>
             </column>
             <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="${varchar_type}(120)" remarks="Имя учетной записи">
-                <constraints nullable="false"/>
-            </column>
             <column name="max_count_users" type="number" defaultValue="1"
                     remarks="Максимально возможное количество участников учетной записи">
                 <constraints nullable="false"/>
             </column>
-            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+            <column name="account_type_name" type="${varchar_type}(120)" remarks="Имя типа учетной записи">
                 <constraints nullable="false"/>
             </column>
             <column name="revision_id" type="bigint" remarks="№ ревизии">
-                <constraints foreignKeyName="account_audit_fkey" references="revision_info_envers(id)"
+                <constraints foreignKeyName="account_type_audit_fkey" references="revision_info_envers(id)"
                              nullable="false"/>
             </column>
             <column name="revision_operation" type="smallint" remarks="Тип операции">
@@ -122,10 +92,18 @@
             <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_credentials_id" type="${uuid_type}" remarks="Пользователь">
+            <column name="user_id" type="${uuid_type}" remarks="Пользователь"/>
+            <column name="user_name" type="${varchar_type}(120)" defaultValue="true"
+                    remarks="Наименование учетной записи пользователя">
                 <constraints nullable="false"/>
             </column>
-            <column name="account_id" type="${uuid_type}" remarks="Учетная запись">
+            <column name="password" type="${varchar_type}(120)" remarks="Пароль учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="${boolean_type}" defaultValue="true" remarks="Флаг активности">
                 <constraints nullable="false"/>
             </column>
             <column name="revision_id" type="bigint" remarks="№ ревизии">
@@ -156,7 +134,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="revision_id" type="bigint" remarks="№ ревизии">
-                <constraints foreignKeyName="role_audit_audit_fkey" references="revision_info_envers(id)"
+                <constraints foreignKeyName="role_audit_fkey" references="revision_info_envers(id)"
                              nullable="false"/>
             </column>
             <column name="revision_operation" type="smallint" remarks="Тип операции">
@@ -202,10 +180,7 @@
             </not>
         </preConditions>
 
-        <createTable tableName="role_action" remarks="История изменений действий для роли">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints nullable="false"/>
-            </column>
+        <createTable tableName="role_action_audit" remarks="История изменений действий для роли">
             <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
                 <constraints nullable="false"/>
             </column>
@@ -222,6 +197,31 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="create-table-account-role-audit" author="${author}">
+        <preConditions onFail="MARK_RAN" onError="CONTINUE">
+            <not>
+                <tableExists tableName="account_role_audit"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="account_role_audit"
+                     remarks="История изменений предустановленной роли для учетной записи">
+            <column name="account_type_id" type="${uuid_type}" remarks="Тип учетной записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_id" type="bigint" remarks="№ ревизии">
+                <constraints foreignKeyName="account_role_audit_fkey" references="revision_info_envers(id)"
+                             nullable="false"/>
+            </column>
+            <column name="revision_operation" type="smallint" remarks="Тип операции">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="create-table-user-account-role-audit" author="${author}">
         <preConditions onFail="MARK_RAN" onError="CONTINUE">
             <not>
@@ -229,17 +229,12 @@
             </not>
         </preConditions>
 
-        <createTable tableName="user_account_role_audit" remarks="История изменений ролей для УЗ">
-            <column name="id" type="${uuid_type}" remarks="Идентификатор записи">
-                <constraints primaryKeyName="user_account_role_pkey" primaryKey="true" nullable="false"/>
-            </column>
-            <column name="user_account_id" type="${uuid_type}" remarks="Идентификатор УЗ">
-                <constraints foreignKeyName="user_account_role_user_credentials_fk01" references="user_credentials(id)"
-                             nullable="false"/>
+        <createTable tableName="user_account_role_audit" remarks="История изменений роли для учетной записи">
+            <column name="user_account_id" type="${uuid_type}" remarks="Идентификатор учетной записи пользователя">
+                <constraints nullable="false"/>
             </column>
             <column name="role_id" type="${uuid_type}" remarks="Идентификатор роли">
-                <constraints foreignKeyName="user_account_role_role_fk01" references="role_(id)"
-                             nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="revision_id" type="bigint" remarks="№ ревизии">
                 <constraints foreignKeyName="user_account_role_audit_fkey" references="revision_info_envers(id)"
@@ -254,12 +249,12 @@
     <changeSet id="add-grants-to-tables" author="${author}">
         <sql>GRANT SELECT ON revision_info_envers TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON revision_changes_envers TO ${db_user_name}</sql>
-        <sql>GRANT SELECT ON user_credentials_audit TO ${db_user_name}</sql>
-        <sql>GRANT SELECT ON account_audit TO ${db_user_name}</sql>
+        <sql>GRANT SELECT ON account_type_audit TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON user_account_audit TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON role_audit TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON action_audit TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON role_action_audit TO ${db_user_name}</sql>
+        <sql>GRANT SELECT ON account_role_audit TO ${db_user_name}</sql>
         <sql>GRANT SELECT ON user_account_role_audit TO ${db_user_name}</sql>
     </changeSet>
 </databaseChangeLog>

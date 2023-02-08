@@ -2,10 +2,10 @@ package userService.entity.envers;
 
 import jakarta.persistence.Table;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.hibernate.envers.EntityTrackingRevisionListener;
 import org.hibernate.envers.RevisionType;
 import org.springframework.data.history.RevisionMetadata;
-import org.springframework.util.StringUtils;
 
 import java.util.Set;
 
@@ -49,7 +49,7 @@ public class RevisionListener implements EntityTrackingRevisionListener {
             log.error("Class with name: {" + entityName + "} not found");
         }
 
-        if (StringUtils.hasLength((tableName))) {
+        if (Strings.isEmpty((tableName))) {
             throw new NullPointerException("Audited entity-table must have name!");
         }
 

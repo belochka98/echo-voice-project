@@ -1,6 +1,6 @@
+D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\enm\AccountTypeName.java
 D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\client\api\RevisionApi.java
 D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\client\feign\AuthenticationClient.java
 D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\client\feign\RevisionClient.java
 D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\client\api\AuthenticationApi.java
-D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\client\controller\RevisionController.java
-D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\client\controller\AuthenticationController.java
+D:\myprojects\echoVoiceProjects\platform\api\evoice-authentication-api\src\main\java\dto\AuthenticationUserDto.java
