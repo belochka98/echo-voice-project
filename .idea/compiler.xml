@@ -9,14 +9,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="evoice-naming-service" />
         <module name="evoice-authentication-api" />
-        <module name="evoice-authentication-service" />
+        <module name="evoice-api-gateway" />
         <module name="evoice-user-service" />
         <module name="evoice-api-core" />
         <module name="evoice-user-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="evoice-authentication-service_deprecated" target="17" />
       <module name="evoice-envers-core" target="17" />
+      <module name="evoice-security-core" target="17" />
+      <module name="evoice-security-service" target="17" />
       <module name="evoice-user-service-dto" target="17" />
       <module name="evoice-user-service-enum" target="1.5" />
       <module name="evoice-user-service-enums" target="17" />
@@ -25,9 +28,11 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="evoice-authentication-service" options="-parameters" />
+      <module name="evoice-api-gateway" options="-parameters" />
+      <module name="evoice-authentication-service_deprecated" options="-parameters" />
       <module name="evoice-envers-core" options="" />
       <module name="evoice-naming-service" options="-parameters" />
+      <module name="evoice-security-service" options="-parameters" />
       <module name="evoice-service-parent" options="-parameters" />
       <module name="evoice-user-service" options="-parameters" />
       <module name="evoice-user-service-enum" options="-parameters" />

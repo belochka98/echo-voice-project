@@ -1,0 +1,50 @@
+# SPRING PROPERTIES
+spring:
+  application:
+    name: evoice-api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8079/realms/spring-boot-microservices-realm
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      # Naming Service Route
+      routes[0]:
+        id: evoice-naming-service
+        uri: http://localhost:8761
+        predicates[0]: Path=/eureka/web
+        filters[0]: SetPath=/
+      # Naming Service Static Resources Route
+      routes[1]:
+        id: evoice-naming-service-static
+        uri: http://localhost:8761
+        predicates[0]: Path=/eureka/**
+      # User Service Route
+      routes[2]:
+        id: evoice-user-service
+        uri: lb://evoice-user-service
+        predicates[0]: Path=/api/user-service/**
+        filters[0]: RewritePath=/api/user-service(?<segment>/?.*), $\{segment}
+
+
+# EUREKA PROPERTIES
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+# LOGGING PROPERTIES
+logging:
+  level:
+    root: debug
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: debug
+    org.springframework.cloud.gateway: debug
+
+# THIS SERVICE OTHER PROPERTIES
+server:
+  port: 8081

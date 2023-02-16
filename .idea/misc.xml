@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/platform/evoice-core-service-data/pom.xml" />
         <option value="$PROJECT_DIR$/platform/parent/evoice-api-parent/pom.xml" />
         <option value="$PROJECT_DIR$/platform/api/evoice-authentication-api/pom.xml" />
+        <option value="$PROJECT_DIR$/evoice-api-gateway/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

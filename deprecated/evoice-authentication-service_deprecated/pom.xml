@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
 
-    <artifactId>evoice-authentication-service</artifactId>
+    <artifactId>evoice-authentication-service_deprecated</artifactId>
     <version>1.0.0</version>
     <name>evoice-authentication-service</name>
     <description>Service provider of authentication data and the main processing link</description>
@@ -20,6 +20,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>3.0.2</version>
         </dependency>
 
         <!-- OTHERS -->

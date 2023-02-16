@@ -1,10 +1,15 @@
 dto\envers\RevisionChangeDto.class
-enm\ResultCode.class
-dto\envers\RevisionDto.class
 dto\envers\RevisionFilterDto$RevisionFilterDtoBuilder.class
+enm\response\ResultCode.class
+component\response\ResponseExceptionHandler$1.class
+enm\response\LoggingLevel.class
+component\response\ResponseExceptionHandler.class
+dto\response\ApiError.class
+dto\envers\RevisionDto.class
 dto\envers\RevisionFilterDto.class
 dto\response\ResultResponse.class
 component\response\ResultResponseFactory.class
 annotation\EnableAPICore.class
 dto\response\ResponseError.class
+dto\response\ApiError$ApiErrorBuilder.class
 dto\response\ResponseOk.class

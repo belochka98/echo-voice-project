@@ -1,12 +1,18 @@
+# SPRING PROPERTIES
 spring:
   application:
-    name: evoice-naming-server
-server:
-  port: 8761
+    name: evoice-naming-service
 
+# EUREKA PROPERTIES
 eureka:
   client:
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka
     register-with-eureka: false
     fetch-registry: false
   instance:
-    prefer-ip-address: true
+    hostname: ${spring.application.name}
+
+# THIS SERVICE OTHER PROPERTIES
+server:
+  port: 8761

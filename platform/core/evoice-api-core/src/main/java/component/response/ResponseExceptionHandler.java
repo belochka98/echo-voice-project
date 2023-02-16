@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,7 +32,6 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus.Series.SERVER_ERROR, LoggingLevel.ERROR
     );
     private static final Map<Class<? extends Exception>, HttpStatus> EXCEPTION_STATUS_MAP = Map.of(
-            BadCredentialsException.class, HttpStatus.FORBIDDEN
     );
 
     protected ResponseEntity<Object> buildResponseEntity(HttpStatus httpStatus, Throwable ex, String message) {
@@ -55,8 +53,8 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleException(Exception ex) {
         return Optional.ofNullable(AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class)).map(
                 status -> this.buildResponseEntity(status.code(), ex, status.reason())
-        ).orElse(
-                this.buildResponseEntity(
+        ).orElseGet(
+                () -> this.buildResponseEntity(
                         Objects.requireNonNullElse(EXCEPTION_STATUS_MAP.get(ex.getClass()), HttpStatus.INTERNAL_SERVER_ERROR),
                         ex,
                         ex.getMessage()
