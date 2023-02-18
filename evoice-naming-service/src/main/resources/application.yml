@@ -1,3 +1,9 @@
+# SERVICE PROPERTIES
+evoice-naming-service:
+  eureka:
+    username: eureka
+    password: password
+
 # SPRING PROPERTIES
 spring:
   application:

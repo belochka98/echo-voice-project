@@ -1,4 +1,4 @@
-package com.programming.techie.apigateway.config;
+package apiGateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -19,7 +19,6 @@ spring:
         uri: http://localhost:8761
         predicates[0]: Path=/eureka/web
         filters[0]: SetPath=/
-      # ToDo: doesn't work
       # Naming Service Static Resources Route
       routes[1]:
         id: evoice-naming-service-static
@@ -37,7 +36,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka:password@localhost:8761/eureka
 
 # LOGGING PROPERTIES
 logging:
